@@ -4,18 +4,16 @@ import asyncio
 import sys
 from pathlib import Path
 
-# Добавляем bot в путь
 sys.path.insert(0, str(Path(__file__).parent))
 
 from handlers.start import handle_start
 from handlers.help import handle_help
 from handlers.health import handle_health
+from handlers.labs import handle_labs
+from handlers.scores import handle_scores
 
 
 async def process_command(command: str) -> str:
-    """Обрабатывает команду и возвращает ответ."""
-    
-    # Убираем лишние пробелы
     command = command.strip()
     
     if command == "/start":
@@ -25,30 +23,42 @@ async def process_command(command: str) -> str:
     elif command == "/health":
         return await handle_health()
     elif command == "/labs":
-        # Пока заглушка
-        return "📚 Labs list - coming soon"
+        return await handle_labs()
     elif command.startswith("/scores"):
-        # Пока заглушка
-        return "📊 Scores - coming soon"
+        parts = command.split()
+        lab = parts[1] if len(parts) > 1 else None
+        return await handle_scores(lab)
     else:
         return f"Unknown command: {command}\nUse /help to see available commands."
 
 
 async def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--test", type=str, help="Test a command and print response")
+    parser.add_argument("--test", type=str, help="Test a command")
     args = parser.parse_args()
     
     if args.test:
-        try:
-            response = await process_command(args.test)
-            print(response)
-            sys.exit(0)
-        except Exception as e:
-            print(f"Error: {e}")
-            sys.exit(1)
+        response = await process_command(args.test)
+        print(response)
+        sys.exit(0)
     else:
-        print("Bot running in Telegram mode - coming soon")
+        from aiogram import Bot, Dispatcher
+        from aiogram.types import Message
+        from config import BOT_TOKEN
+        
+        bot = Bot(token=BOT_TOKEN)
+        dp = Dispatcher()
+        
+        @dp.message()
+        async def handle_message(message: Message):
+            response = await process_command(message.text)
+            await message.answer(response)
+        
+        async def start_bot():
+            print("Bot started!")
+            await dp.start_polling(bot)
+        
+        await start_bot()
 
 
 if __name__ == "__main__":
