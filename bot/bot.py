@@ -26,7 +26,7 @@ async def handle_natural_language(query: str) -> str:
         {"role": "user", "content": query}
     ]
     
-    max_iterations = 5
+    max_iterations = 10
     for _ in range(max_iterations):
         response = await llm_client.chat(messages, tools=TOOLS)
         message = response["choices"][0]["message"]
@@ -84,16 +84,39 @@ async def main():
         sys.exit(0)
     else:
         from aiogram import Bot, Dispatcher
-        from aiogram.types import Message
+        from aiogram.types import Message, ReplyKeyboardMarkup, KeyboardButton
         from config import BOT_TOKEN
         
         bot = Bot(token=BOT_TOKEN)
         dp = Dispatcher()
         
+        # Создаем клавиатуру
+        main_keyboard = ReplyKeyboardMarkup(
+            keyboard=[
+                [KeyboardButton(text="/start"), KeyboardButton(text="/help")],
+                [KeyboardButton(text="/health"), KeyboardButton(text="/labs")],
+                [KeyboardButton(text="📊 Show labs"), KeyboardButton(text="📈 Lowest pass rate")],
+            ],
+            resize_keyboard=True
+        )
+        
+        @dp.message(lambda msg: msg.text == "📊 Show labs")
+        async def show_labs_button(message: Message):
+            response = await process_command("/labs")
+            await message.answer(response, reply_markup=main_keyboard)
+        
+        @dp.message(lambda msg: msg.text == "📈 Lowest pass rate")
+        async def lowest_pass_rate_button(message: Message):
+            response = await process_command("which lab has the lowest pass rate")
+            await message.answer(response, reply_markup=main_keyboard)
+        
         @dp.message()
         async def handle_message(message: Message):
             response = await process_command(message.text)
-            await message.answer(response)
+            if message.text == "/start":
+                await message.answer(response, reply_markup=main_keyboard)
+            else:
+                await message.answer(response)
         
         async def start_bot():
             print("Bot started!")

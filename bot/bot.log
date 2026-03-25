@@ -1,0 +1,22 @@
+nohup: ignoring input
+Traceback (most recent call last):
+  File "/root/se-toolkit-lab-7/bot/bot.py", line 128, in <module>
+    asyncio.run(main())
+    ~~~~~~~~~~~^^^^^^^^
+  File "/root/.local/share/uv/python/cpython-3.14.2-linux-x86_64-gnu/lib/python3.14/asyncio/runners.py", line 204, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "/root/.local/share/uv/python/cpython-3.14.2-linux-x86_64-gnu/lib/python3.14/asyncio/runners.py", line 127, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/root/.local/share/uv/python/cpython-3.14.2-linux-x86_64-gnu/lib/python3.14/asyncio/base_events.py", line 719, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/root/se-toolkit-lab-7/bot/bot.py", line 90, in main
+    bot = Bot(token=BOT_TOKEN)
+  File "/root/se-toolkit-lab-7/.venv/lib/python3.14/site-packages/aiogram/client/bot.py", line 278, in __init__
+    validate_token(token)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "/root/se-toolkit-lab-7/.venv/lib/python3.14/site-packages/aiogram/utils/token.py", line 27, in validate_token
+    raise TokenValidationError(msg)
+aiogram.utils.token.TokenValidationError: Token is invalid!
