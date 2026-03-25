@@ -1,0 +1,21 @@
+[0;1;32m●[0m ollama.service - Ollama Service
+     Loaded: loaded (]8;;file://set-vm022/etc/systemd/system/ollama.service/etc/systemd/system/ollama.service]8;;; [0;1;32menabled[0m; preset: [0;1;32menabled[0m)
+     Active: [0;1;32mactive (running)[0m since Wed 2026-03-25 15:30:13 MSK; 8min ago
+   Main PID: 487443 (ollama)
+      Tasks: 24 (limit: 4601)
+     Memory: 2.5G (peak: 2.6G)
+        CPU: 1min 16.089s
+     CGroup: /system.slice/ollama.service
+             ├─[0;38;5;245m487443 /usr/local/bin/ollama serve[0m
+             └─[0;38;5;245m488893 /usr/local/bin/ollama runner --model /usr/share/ollama/.ollama/models/blobs/sha256-74701a8c35f6c8d9a4b91f3f3497643001d63e0c7a84e085bed452548fa88d45 --port 38579[0m
+
+Mar 25 15:35:05 set-vm022 ollama[487443]: llama_context: Flash Attention was auto, set to enabled
+Mar 25 15:35:05 set-vm022 ollama[487443]: llama_context:        CPU compute buffer size =   258.50 MiB
+Mar 25 15:35:05 set-vm022 ollama[487443]: llama_context: graph nodes  = 503
+Mar 25 15:35:05 set-vm022 ollama[487443]: llama_context: graph splits = 1
+Mar 25 15:35:05 set-vm022 ollama[487443]: time=2026-03-25T15:35:05.241+03:00 level=INFO source=server.go:1388 msg="llama runner started in 2.07 seconds"
+Mar 25 15:35:05 set-vm022 ollama[487443]: time=2026-03-25T15:35:05.241+03:00 level=INFO source=sched.go:561 msg="loaded runners" count=1
+Mar 25 15:35:05 set-vm022 ollama[487443]: time=2026-03-25T15:35:05.242+03:00 level=INFO source=server.go:1350 msg="waiting for llama runner to start responding"
+Mar 25 15:35:05 set-vm022 ollama[487443]: time=2026-03-25T15:35:05.244+03:00 level=INFO source=server.go:1388 msg="llama runner started in 2.08 seconds"
+Mar 25 15:35:07 set-vm022 ollama[487443]: [GIN] 2026/03/25 - 15:35:07 | 200 |  5.461945446s |       127.0.0.1 | POST     "/api/generate"
+Mar 25 15:37:33 set-vm022 ollama[487443]: [GIN] 2026/03/25 - 15:37:33 | 500 |          1m0s |       127.0.0.1 | POST     "/v1/chat/completions"
